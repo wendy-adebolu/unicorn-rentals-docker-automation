@@ -53,7 +53,7 @@ unicorn-rentals-docker-automation/
 ## Getting Started
 Follow these steps to get started with the project:
 
-## Clone this repository.
+#### Clone this repository.
 - Set up your AWS credentials and configure your environment.
 - Modify the Dockerfiles in the Dockerfiles/ directory as needed.
 - Configure the Terraform code in the infrastructure/ directory to match your infrastructure requirements.
