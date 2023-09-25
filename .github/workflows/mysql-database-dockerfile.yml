@@ -1,4 +1,4 @@
-name: 'Main Pipeline' 
+name: 'MySQL Database Pipeline' 
 
 on:
 #   push:
@@ -16,14 +16,14 @@ permissions:
 jobs:
   test:
     name: Terraform Test
-    uses: OneWorldGTM/owgtm-templates/.github/workflows/terraform-test.yml@main
+    uses: xyz
     secrets: inherit
     with:
       docs_output: "../README.md"
 
 #   set-matrix:
 #     name: Set Matrix
-#     uses: OneWorldGTM/owgtm-templates/.github/workflows/set-matrix.yml@main
+#     uses: xyz
 #     with:
 #       json_path: 'environments.json'
 #       env_deploy_list: '["dev","test","preprod","prod"]'
@@ -34,7 +34,7 @@ jobs:
 #     strategy:
 #       max-parallel: 1
 #       matrix: ${{fromJson(needs.set-matrix.outputs.matrix)}}
-#     uses: OneWorldGTM/owgtm-templates/.github/workflows/terraform-plan.yml@main
+#     uses: xyz
 #     secrets: inherit
 #     with:
 #       environment: ${{ matrix.env }}
@@ -48,7 +48,7 @@ jobs:
 #     strategy:
 #       max-parallel: 1
 #       matrix: ${{fromJson(needs.set-matrix.outputs.matrix)}}
-#     uses: OneWorldGTM/owgtm-templates/.github/workflows/terraform-apply.yml@main
+#     uses: xyz
 #     secrets: inherit
 #     with:
 #       environment: ${{ matrix.env }}
