@@ -2,7 +2,7 @@
 Unicorn Rentals is exploring Docker on AWS for deploying their WordPress Blogs. This project aims to automate the Docker image building and deployment process using AWS ECR, Terraform, CI/CD pipelines, and AWS ECS or Fargate.
 
 ## Project Overview
-Unicorn Rentals' objectives are:
+### Unicorn Rentals' objectives are:
 
 - Build a web server container for running the WordPress software.
 - Create a database container to host the MySQL database for WordPress.
@@ -13,8 +13,8 @@ Unicorn Rentals' objectives are:
 - Maintain a Git repository with Dockerfiles for both web and database containers.
 
   
-- Implement three pipelines for different tasks:
-- 
+## Implement three pipelines for different tasks:
+
 1. Web Server Container Pipeline
 Automatically triggered on changes to the WordPress web server Dockerfile.
 Builds the container image.
