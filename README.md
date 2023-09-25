@@ -30,7 +30,7 @@ Triggered on changes to the Terraform code.
 Plans and deploys AWS infrastructure for ECS/Fargate.
 Retrieves the latest Docker images created by the other pipelines from AWS ECR.
 
-Repository Structure
+### Repository Structure
 ```
 unicorn-rentals-docker-automation/
 │
