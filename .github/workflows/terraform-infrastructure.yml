@@ -16,7 +16,7 @@ permissions:
 jobs:
   set-matrix:
     name: Set Matrix
-    uses: ./set-matrix.yml@main
+    uses: wendy-adebolu/unicorn-rentals-docker-automation/.github/workflows/set-matrix.yml@main
     with:
       json_path: 'environments.json'
       env_deploy_list: '["dev"]'
@@ -27,7 +27,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix: ${{fromJson(needs.set-matrix.outputs.matrix)}}
-    uses: ./plan.yml@main
+    uses: wendy-adebolu/unicorn-rentals-docker-automation/plan.yml@main
     secrets: inherit
     with:
       tf_build_path: ../terraform/build
