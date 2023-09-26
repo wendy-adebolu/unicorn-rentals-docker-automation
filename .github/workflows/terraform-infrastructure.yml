@@ -22,7 +22,7 @@ jobs:
       env_deploy_list: '["dev"]'
 
   Plan:
-    needs: [ test, set-matrix ]
+    needs: [ set-matrix ]
     name: Terraform Plan - ${{ matrix.env }}
     strategy:
       max-parallel: 1
