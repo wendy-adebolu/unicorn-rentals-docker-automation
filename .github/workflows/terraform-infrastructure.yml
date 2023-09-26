@@ -14,33 +14,27 @@ permissions:
   pull-requests: write
 
 jobs:
-  test:
-    name: Terraform Test
-    uses: xyz
+  set-matrix:
+    name: Set Matrix
+    uses: ./set-matrix.yml
+    with:
+      json_path: 'environments.json'
+      env_deploy_list: '["dev"]'
+
+  Plan:
+    needs: [ test, set-matrix ]
+    name: Terraform Plan - ${{ matrix.env }}
+    strategy:
+      max-parallel: 1
+      matrix: ${{fromJson(needs.set-matrix.outputs.matrix)}}
+    uses: ./plan.yml
     secrets: inherit
     with:
-      docs_output: "../README.md"
-
-#   set-matrix:
-#     name: Set Matrix
-#     uses: xyz
-#     with:
-#       json_path: 'environments.json'
-#       env_deploy_list: '["dev","test","preprod","prod"]'
-
-#   Plan:
-#     needs: [ test, set-matrix ]
-#     name: Terraform Plan - ${{ matrix.env }}
-#     strategy:
-#       max-parallel: 1
-#       matrix: ${{fromJson(needs.set-matrix.outputs.matrix)}}
-#     uses: xyz
-#     secrets: inherit
-#     with:
-#       environment: ${{ matrix.env }}
-#       region: ${{ matrix.region }}
-#       role_to_assume: ${{ matrix.role_to_assume }}
-#       #tf_destroy_all_resources: ${{ matrix.tf_destroy_all_resources}}
+      tf_build_path: ../terraform/build
+      environment: ${{ matrix.env }}
+      region: ${{ matrix.region }}
+      role_to_assume: ${{ matrix.role_to_assume }}
+      tf_destroy_all_resources: ${{ matrix.tf_destroy_all_resources}}
 
 #   Apply:
 #     needs: [ Plan, set-matrix ]
