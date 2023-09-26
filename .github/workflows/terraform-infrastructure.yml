@@ -30,7 +30,7 @@ jobs:
     uses: wendy-adebolu/unicorn-rentals-docker-automation/.github/workflows/plan.yml@main
     secrets: inherit
     with:
-      tf_build_path: wendy-adebolu/unicorn-rentals-docker-automation/Terraform/build 
+      tf_build_path: Terraform/build 
       environment: ${{ matrix.env }}
       region: ${{ matrix.region }}
       role_to_assume: ${{ matrix.role_to_assume }}
