@@ -27,7 +27,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix: ${{fromJson(needs.set-matrix.outputs.matrix)}}
-    uses: wendy-adebolu/unicorn-rentals-docker-automation/plan.yml@main
+    uses: wendy-adebolu/unicorn-rentals-docker-automation/.github/workflows/plan.yml@main
     secrets: inherit
     with:
       tf_build_path: ../terraform/build
