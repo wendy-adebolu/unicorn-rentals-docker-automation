@@ -101,7 +101,4 @@ resource "aws_security_group" "ecs_security_group" {
 
 # Define a VPC and other networking resources if needed.
 
-# Output the DNS name of the WordPress service
-output "wordpress_dns" {
-  value = aws_ecs_service.wordpress_service.network_configuration[0].aws_vpc_configuration[0].dns_name
-}
+
