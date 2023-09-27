@@ -35,7 +35,7 @@ jobs:
       env:
         AWS_REGION: 'eu-west-1'
         ECR_REPO_NAME: 'ecr-imaginary-client'  # Name of your ECR repository for mysql
-        DOCKERFILE_PATH: Dockerfiles/mysql/Docker
+        DOCKERFILE_PATH: Dockerfiles/mysql/Dockerfile
       run: |
         docker build -t 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:latest -f $DOCKERFILE_PATH .
         docker push 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:latest
