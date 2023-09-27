@@ -14,39 +14,31 @@ permissions:
   pull-requests: write
 
 jobs:
-  set-matrix:
-    name: Set Matrix
-    uses: wendy-adebolu/unicorn-rentals-docker-automation/.github/workflows/set-matrix.yml@main
-    with:
-      json_path: 'environments.json'
-      env_deploy_list: '["dev"]'
+  build:
+    runs-on: ubuntu-latest
 
-  Plan:
-    needs: [ set-matrix ]
-    name: Terraform Plan - ${{ matrix.env }}
-    strategy:
-      max-parallel: 1
-      matrix: ${{fromJson(needs.set-matrix.outputs.matrix)}}
-    uses: wendy-adebolu/unicorn-rentals-docker-automation/.github/workflows/plan.yml@main
-    secrets: inherit
-    with:
-      tf_build_path: ../terraform/build
-      environment: ${{ matrix.env }}
-      region: ${{ matrix.region }}
-      role_to_assume: ${{ matrix.role_to_assume }}
-      tf_destroy_all_resources: ${{ matrix.tf_destroy_all_resources}}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-#   Apply:
-#     needs: [ Plan, set-matrix ]
-#     name: Terraform Apply - ${{ matrix.env }}
-#     strategy:
-#       max-parallel: 1
-#       matrix: ${{fromJson(needs.set-matrix.outputs.matrix)}}
-#     uses: xyz
-#     secrets: inherit
-#     with:
-#       environment: ${{ matrix.env }}
-#       env_deploy_list: ${{ needs.set-matrix.outputs.env_deploy_list }}
-#       region: ${{ matrix.region }}
-#       role_to_assume: ${{ matrix.role_to_assume }}
-#       #tf_destroy_all_resources: ${{ matrix.tf_destroy_all_resources}}
+    - name: Set up Docker
+      uses: docker/setup-docker@v2
+
+    - name: Configure AWS credentials for account
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        role-to-assume: "arn:aws:iam::017432918922:role/github-deployment"
+        aws-region: 'eu-west-1'
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build and push Docker image for mysql
+      env:
+        AWS_REGION: 'eu-west-1'
+        ECR_REPO_NAME: 'ecr-imaginary-client'  # Name of your ECR repository for mysql
+        DOCKERFILE_PATH: Dockerfiles/mysql/Docker
+      run: |
+        docker build -t 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:latest -f $DOCKERFILE_PATH .
+        docker push 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:latest
