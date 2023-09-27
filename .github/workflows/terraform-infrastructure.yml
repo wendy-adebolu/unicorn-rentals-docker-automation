@@ -1,4 +1,4 @@
-name: 'Terraform Deployment Pipeline' 
+name: 'Infra Deploy' 
 
 on:
 #   push:

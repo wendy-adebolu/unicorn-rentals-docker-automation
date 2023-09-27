@@ -1,5 +1,4 @@
-name: Plan Terraform
-
+name: 'Plan' 
 on:
   workflow_call:
     inputs:
