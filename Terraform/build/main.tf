@@ -15,7 +15,7 @@ resource "aws_ecs_task_definition" "wordpress_task" {
   family                   = "wordpress"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn        = aws_iam_role.ecs_execution_role.arn
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
 
   container_definitions = jsonencode([{
     name  = "wordpress"
@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "mysql_task" {
   family                   = "mysql"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  execution_role_arn        = aws_iam_role.ecs_execution_role.arn
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
 
   container_definitions = jsonencode([{
     name  = "mysql"
@@ -69,7 +69,7 @@ resource "aws_ecs_service" "wordpress_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets = ["subnet-xxxxxxxxxxxxx"] # Replace with your subnet IDs
+    subnets         = ["subnet-xxxxxxxxxxxxx"] # Replace with your subnet IDs
     security_groups = [aws_security_group.ecs_security_group.id]
   }
 }

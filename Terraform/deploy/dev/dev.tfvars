@@ -1,2 +1,2 @@
-environment = "dev"
+environment  = "dev"
 appcomponent = "imaginary-client"
