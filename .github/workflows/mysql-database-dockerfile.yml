@@ -1,5 +1,4 @@
 name: 'MySQL'
-
 on:
 #   push:
 #     branches:

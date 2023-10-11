@@ -10,39 +10,39 @@ resource "aws_ecs_cluster" "wordpress_cluster" {
   name = "wordpress-cluster"
 }
 
-# # Define a task definition for WordPress
-# resource "aws_ecs_task_definition" "wordpress_task" {
-#   family                   = "wordpress"
-#   network_mode             = "awsvpc"
-#   requires_compatibilities = ["FARGATE"]
-#   execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+# Define a task definition for WordPress
+resource "aws_ecs_task_definition" "wordpress_task" {
+  family                   = "wordpress"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
 
-#   container_definitions = jsonencode([{
-#     name  = "wordpress"
-#     image = "your-wordpress-image-url" # Replace with your WordPress image URL
-#     portMappings = [{
-#       containerPort = 80
-#       hostPort      = 80
-#     }]
-#   }])
-# }
+  container_definitions = jsonencode([{
+    name  = "wordpress"
+    image = "your-wordpress-image-url" # Replace with your WordPress image URL
+    portMappings = [{
+      containerPort = 80
+      hostPort      = 80
+    }]
+  }])
+}
 
-# # Define a task definition for MySQL
-# resource "aws_ecs_task_definition" "mysql_task" {
-#   family                   = "mysql"
-#   network_mode             = "awsvpc"
-#   requires_compatibilities = ["FARGATE"]
-#   execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+# Define a task definition for MySQL
+resource "aws_ecs_task_definition" "mysql_task" {
+  family                   = "mysql"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
 
-#   container_definitions = jsonencode([{
-#     name  = "mysql"
-#     image = "your-mysql-image-url" # Replace with your MySQL image URL
-#     portMappings = [{
-#       containerPort = 3306
-#       hostPort      = 3306
-#     }]
-#   }])
-# }
+  container_definitions = jsonencode([{
+    name  = "mysql"
+    image = "your-mysql-image-url" # Replace with your MySQL image URL
+    portMappings = [{
+      containerPort = 3306
+      hostPort      = 3306
+    }]
+  }])
+}
 
 # Define an IAM role for ECS task execution
 resource "aws_iam_role" "ecs_execution_role" {
