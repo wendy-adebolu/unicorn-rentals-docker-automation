@@ -13,7 +13,7 @@ resource "aws_ecs_cluster" "wordpress_cluster" {
 # Define a task definition for WordPress
 resource "aws_ecs_task_definition" "wordpress_task" {
   family                   = "wordpress"
-  # network_mode             = "awsvpc"
+  network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
@@ -32,7 +32,7 @@ resource "aws_ecs_task_definition" "wordpress_task" {
 # Define a task definition for MySQL
 resource "aws_ecs_task_definition" "mysql_task" {
   family                   = "mysql"
-  # network_mode             = "awsvpc"
+  network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
@@ -72,10 +72,10 @@ resource "aws_ecs_service" "wordpress_service" {
   launch_type     = "FARGATE"
   desired_count   = 1
 
-  # network_configuration {
-  #   subnets         = ["subnet-xxxxxxxxxxxxx"] # Replace with your subnet IDs
-  #   security_groups = [aws_security_group.ecs_security_group.id]
-  # }
+  network_configuration {
+    subnets         = ["subnet-0361a4cacced162cd"] # Replace with your subnet IDs
+    security_groups = [aws_security_group.ecs_security_group.id]
+  }
 }
 
 
