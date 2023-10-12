@@ -74,7 +74,6 @@ resource "aws_ecs_service" "wordpress_service" {
 
   network_configuration {
     subnets         = ["subnet-0361a4cacced162cd"] # Replace with your subnet IDs
-    security_groups = [aws_security_group.ecs_security_group.id]
   }
 }
 
