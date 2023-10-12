@@ -1,0 +1,67 @@
+version: '3'
+
+tasks:
+
+  aws:dev:
+    cmds:
+      - aws-azure-login  --profile aws-innovation-lab
+
+  tf:lint:
+    dir: build
+    cmds:
+      - tflint
+
+  tf:docs:
+    cmds:
+      - terraform-docs build {{.CLI_ARGS}}
+
+  tf:fmt:
+    env:
+      AWS_PROFILE: aws-innovation-lab
+    cmds:
+      - terraform fmt -recursive -diff {{.CLI_ARGS}}
+
+  tf:init:
+    dir: build
+    env:
+      AWS_PROFILE: aws-innovation-lab
+      ENV: dev
+    cmds:
+      - terraform init -backend-config={{ .ROOT_DIR }}/deploy/$ENV/backend-$ENV.conf {{ .CLI_ARGS }}
+      - terraform providers lock -platform=darwin_amd64 -platform=linux_amd64
+  
+  tf:validate:
+    dir: build
+    env:
+      AWS_PROFILE: aws-innovation-lab
+    cmds:
+      - terraform validate {{.CLI_ARGS}}
+      - task: tf:lint
+
+  tf:plan:
+    dir: build
+    env:
+      AWS_PROFILE: aws-innovation-lab
+    cmds:
+      - terraform plan {{.CLI_ARGS}}
+
+  tf:apply:
+    dir: build
+    env:
+      AWS_PROFILE: aws-innovation-lab
+    cmds:
+      - terraform apply {{.CLI_ARGS}}
+
+  tf:destroy:
+    dir: build
+    env:
+      AWS_PROFILE: aws-innovation-lab
+    cmds:
+      - terraform destroy {{.CLI_ARGS}}
+
+  tf:
+    dir: build
+    env:
+      AWS_PROFILE: aws-innovation-lab
+    cmds:
+      - terraform {{.CLI_ARGS}}
