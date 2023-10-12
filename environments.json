@@ -5,7 +5,7 @@
             "region": "eu-west-2",
             "role_to_assume": "arn:aws:iam::060399601368:role/github-deployment-for-imaginary-client",
             "ecr_repository": "ecr-imaginary-client",
-            "tf_destroy_all_resources": "False"
+            "tf_destroy_all_resources": "True"
         }
     ]
   }
