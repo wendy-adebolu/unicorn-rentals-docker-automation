@@ -23,8 +23,8 @@ jobs:
     - name: Configure AWS credentials for account
       uses: aws-actions/configure-aws-credentials@v1-node16
       with:
-        role-to-assume: "arn:aws:iam::017432918922:role/github-deployment"
-        aws-region: 'eu-west-1'
+        role-to-assume: "arn:aws:iam::060399601368:role/github-deployment-for-imaginary-client"
+        aws-region: 'eu-west-2'
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -32,9 +32,9 @@ jobs:
 
     - name: Build and push Docker image for mysql
       env:
-        AWS_REGION: 'eu-west-1'
+        AWS_REGION: 'eu-west-2'
         ECR_REPO_NAME: 'ecr-imaginary-client'  # Name of your ECR repository for mysql
         DOCKERFILE_PATH: Dockerfiles/mysql/Dockerfile
       run: |
-        docker build -t 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:latest -f $DOCKERFILE_PATH .
-        docker push 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:latest
+        docker build -t 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:latest -f $DOCKERFILE_PATH .
+        docker push 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:latest
