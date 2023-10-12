@@ -72,10 +72,10 @@ resource "aws_ecs_service" "wordpress_service" {
   launch_type     = "FARGATE"
   desired_count   = 1
 
-  network_configuration {
-    subnets         = ["subnet-xxxxxxxxxxxxx"] # Replace with your subnet IDs
-    security_groups = [aws_security_group.ecs_security_group.id]
-  }
+  # network_configuration {
+  #   subnets         = ["subnet-xxxxxxxxxxxxx"] # Replace with your subnet IDs
+  #   security_groups = [aws_security_group.ecs_security_group.id]
+  # }
 }
 
 # Define a security group for ECS
