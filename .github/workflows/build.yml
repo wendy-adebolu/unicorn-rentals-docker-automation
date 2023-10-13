@@ -47,7 +47,8 @@ jobs:
         docker push 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
   
         # Output the image URL
-        echo "::set-output name=image_url::060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG"
+        echo "name=$(image_url::060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG)" >> $GITHUB_OUTPUT
+        
 
     - name: Build and push Docker image for web-server
       env:
