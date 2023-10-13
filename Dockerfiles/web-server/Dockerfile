@@ -7,8 +7,8 @@ ENV WORDPRESS_DB_HOST=db \
     WORDPRESS_DB_PASSWORD=password
 
 # Copy custom themes or plugins 
-COPY custom-plugins/ /var/www/html/wp-content/plugins/custom-plugins
-COPY custom-themes/ /var/www/html/wp-content/themes/custom-themes
+COPY custom-plugins/ . home/var/www/html/wp-content/plugins/custom-plugins
+COPY custom-themes/ . home/var/www/html/wp-content/themes/custom-themes
 
 
 # Expose port 80

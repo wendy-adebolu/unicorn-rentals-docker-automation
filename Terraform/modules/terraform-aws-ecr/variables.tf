@@ -42,7 +42,7 @@ variable "image_names" {
 
 variable "image_tag_mutability" {
   type        = string
-  default     = "IMMUTABLE"
+  default     = "MUTABLE"
   description = "The tag mutability setting for the repository. Must be one of: `MUTABLE` or `IMMUTABLE`"
 }
 
