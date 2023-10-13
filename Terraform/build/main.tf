@@ -73,7 +73,7 @@ resource "aws_ecs_service" "wordpress_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets         = ["subnet-0361a4cacced162cd"] # Replace with your subnet IDs
+    subnets = ["subnet-0361a4cacced162cd"] # Replace with your subnet IDs
   }
 }
 
