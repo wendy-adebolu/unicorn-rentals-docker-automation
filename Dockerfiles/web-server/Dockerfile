@@ -35,7 +35,7 @@ RUN set -ex; \
 	\
 	find wp-content/plugins -type d -exec chown -R :www-data {} \; -exec chmod -R 775 {} \;; \
 	find wp-content/themes -type d -exec chown -R :www-data {} \; -exec chmod -R 775 {} \;; \
-
+    \
 
 # Expose port 80
 EXPOSE 80
