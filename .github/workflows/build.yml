@@ -30,6 +30,25 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Build and push Docker image for mysql
+      env:
+        AWS_REGION: 'eu-west-2'
+        ECR_REPO_NAME: 'ecr-imaginary-client'
+        DOCKERFILE_PATH: Dockerfiles/mysql/Dockerfile
+        IMAGE_TAG: 'mysql'  # Specify the tag you want to use
+      run: |
+        # Build the Docker image
+        docker build -t 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG -f $DOCKERFILE_PATH .
+          
+        # Tag the Docker image
+        docker tag 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
+          
+        # Push the Docker image to ECR
+        docker push 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
+  
+        # Output the image URL
+        echo "::set-output name=image_url::060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG"
+
     - name: Build and push Docker image for web-server
       env:
         AWS_REGION: 'eu-west-2'
@@ -49,21 +68,3 @@ jobs:
         # Output the image URL
         echo "::set-output name=image_url::060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG"
 
-    - name: Build and push Docker image for mysql
-      env:
-        AWS_REGION: 'eu-west-2'
-        ECR_REPO_NAME: 'ecr-imaginary-client'
-        DOCKERFILE_PATH: Dockerfiles/mysql/Dockerfile
-        IMAGE_TAG: 'mysql'  # Specify the tag you want to use
-      run: |
-        # Build the Docker image
-        docker build -t 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG -f $DOCKERFILE_PATH .
-          
-        # Tag the Docker image
-        docker tag 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
-          
-        # Push the Docker image to ECR
-        docker push 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
-  
-        # Output the image URL
-        echo "::set-output name=image_url::060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG"
