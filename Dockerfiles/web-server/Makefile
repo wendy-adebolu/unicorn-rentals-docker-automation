@@ -7,7 +7,7 @@ WORDPRESS_VER_MAJOR ?= $(shell echo "${WORDPRESS_VER}" | grep -oE '^[0-9]+')
 PHP_VER ?= 8.2
 BASE_IMAGE_TAG = $(PHP_VER)
 
-REPO = wendy-adebolu/unicorn-rentals-docker-automation
+REPO = wodby/wordpress
 NAME = wordpress-$(WORDPRESS_VER_MAJOR)-$(PHP_VER)
 
 TAG ?= $(WORDPRESS_VER_MAJOR)-$(PHP_VER)
