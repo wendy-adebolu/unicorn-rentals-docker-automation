@@ -1,4 +1,4 @@
-name: 'Build & Push Web-Server/ MySQL Image'
+name: 'Build'
 on:
 #   push:
 #     branches:
