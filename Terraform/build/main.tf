@@ -78,7 +78,8 @@ resource "aws_iam_policy" "ecr_policy" {
         "ecr:GetLifecyclePolicy",
         "ecr:BatchGetImage",
         "ecr:GetDownloadUrlForLayer",
-        "ecr:GetAuthorizationToken"
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability"
       ],
       Resource = "*"
     }]
