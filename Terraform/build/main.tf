@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "wordpress_task" {
 
   container_definitions = jsonencode([{
     name  = "wordpress"
-    image = "your-wordpress-image-url" # Replace with your WordPress image URL
+    image = "060399601368.dkr.ecr.eu-west-2.amazonaws.com/ecr-imaginary-client:web-server" # Replace with your WordPress image URL
     portMappings = [{
       containerPort = 80
       hostPort      = 80
@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "mysql_task" {
 
   container_definitions = jsonencode([{
     name  = "mysql"
-    image = "your-mysql-image-url" # Replace with your MySQL image URL
+    image = "060399601368.dkr.ecr.eu-west-2.amazonaws.com/ecr-imaginary-client:mysql" # Replace with your MySQL image URL
     portMappings = [{
       containerPort = 3306
       hostPort      = 3306
