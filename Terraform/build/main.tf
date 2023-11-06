@@ -64,6 +64,33 @@ resource "aws_iam_role" "ecs_execution_role" {
   })
 }
 
+# Define an IAM policy for additional permissions
+resource "aws_iam_policy" "ecr_policy" {
+  name = "ecr-policy"
+
+  # Define the policy document to allow ECR actions
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Effect = "Allow",
+      Action = [
+        "ecr:GetRepositoryPolicy",
+        "ecr:GetLifecyclePolicy",
+        "ecr:BatchGetImage",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetAuthorizationToken"
+      ],
+      Resource = "*"
+    }]
+  })
+}
+
+# Attach the IAM policy to the ECS execution role
+resource "aws_iam_role_policy_attachment" "ecr_attachment" {
+  policy_arn = aws_iam_policy.ecr_policy.arn
+  role       = aws_iam_role.ecs_execution_role.name
+}
+
 # Define an ECS service for WordPress
 resource "aws_ecs_service" "wordpress_service" {
   name            = "wordpress-service"
@@ -74,6 +101,7 @@ resource "aws_ecs_service" "wordpress_service" {
 
   network_configuration {
     subnets = ["subnet-0361a4cacced162cd"] # Replace with your subnet IDs
+    security_groups = ["sg-0878a5a64855bb525"]
   }
 }
 
