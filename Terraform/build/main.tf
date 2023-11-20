@@ -1,11 +1,11 @@
-module "imaginary-client" {
+module "imaginary-client-wordpress" {
   source       = "../modules/terraform-aws-ecr"
   stage        = var.environment
   name         = "ecr-${var.appcomponent1}"
   use_fullname = false
 }
 
-module "imaginary-client" {
+module "imaginary-client-mysql" {
   source       = "../modules/terraform-aws-ecr"
   stage        = var.environment
   name         = "ecr-${var.appcomponent2}"
