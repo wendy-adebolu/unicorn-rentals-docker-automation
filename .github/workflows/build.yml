@@ -33,7 +33,7 @@ jobs:
     - name: Build and push Docker image for web-server
       env:
         AWS_REGION: 'eu-west-2'
-        ECR_REPO_NAME: 'ecr-imaginary-client'
+        ECR_REPO_NAME: 'ecr-imaginary-client-wordpress'
         DOCKERFILE_PATH: Dockerfiles/web-server/Dockerfile
         IMAGE_TAG: 'web-server'  # Specify the tag you want to use
       run: |
@@ -53,7 +53,7 @@ jobs:
     - name: Build and push Docker image for mysql
       env:
         AWS_REGION: 'eu-west-2'
-        ECR_REPO_NAME: 'ecr-imaginary-client'
+        ECR_REPO_NAME: 'ecr-imaginary-client-mysql'
         DOCKERFILE_PATH: Dockerfiles/mysql/Dockerfile
         IMAGE_TAG: 'mysql'  # Specify the tag you want to use
       run: |

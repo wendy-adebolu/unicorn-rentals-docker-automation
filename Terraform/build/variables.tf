@@ -2,6 +2,10 @@ variable "environment" {
   default = "dev"
 }
 
-variable "appcomponent" {
-  default = "imaginary-client"
+variable "appcomponent1" {
+  default = "imaginary-client-wordpress"
+}
+
+variable "appcomponent2" {
+  default = "imaginary-client-mysql"
 }

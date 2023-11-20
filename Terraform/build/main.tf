@@ -1,7 +1,14 @@
 module "imaginary-client" {
   source       = "../modules/terraform-aws-ecr"
   stage        = var.environment
-  name         = "ecr-${var.appcomponent}"
+  name         = "ecr-${var.appcomponent1}"
+  use_fullname = false
+}
+
+module "imaginary-client" {
+  source       = "../modules/terraform-aws-ecr"
+  stage        = var.environment
+  name         = "ecr-${var.appcomponent2}"
   use_fullname = false
 }
 
