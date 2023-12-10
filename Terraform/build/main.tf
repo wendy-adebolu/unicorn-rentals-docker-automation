@@ -20,6 +20,11 @@ resource "aws_route_table" "rt" {
   }
 }
 
+resource "aws_route_table_association" "a" {
+  subnet_id      = aws_subnet.my_subnet.id
+  route_table_id = aws_route_table.rt.id
+}
+
 resource "aws_security_group" "ecs_sg" {
   vpc_id = aws_vpc.my_vpc.id
 
