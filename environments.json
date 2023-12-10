@@ -3,7 +3,7 @@
         {
             "env": "dev",
             "region": "eu-west-1",
-            "role_to_assume": "arn:aws:iam::017432918922:role/GithubDeploymentRole",
+            "role_to_assume": "arn:aws:iam::017432918922:role/Github-Deployment-Role",
             "ecr_repository": "ecr-imaginary-client",
             "tf_destroy_all_resources": "False"
         }
