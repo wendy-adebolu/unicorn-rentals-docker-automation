@@ -145,7 +145,7 @@ resource "aws_ecs_service" "wordpress_service" {
   network_configuration {
     subnets = [aws_subnet.my_subnet.id] # Replace with your subnet IDs
     security_groups = [aws_security_group.ecs_sg.id]
-    assign_public_ip = "ENABLED"
+    assign_public_ip = true
   }
 }
 
@@ -160,7 +160,7 @@ resource "aws_ecs_service" "mysql_service" {
   network_configuration {
     subnets = [aws_subnet.my_subnet.id] # Replace with your subnet IDs
     security_groups = [aws_security_group.ecs_sg.id]
-    assign_public_ip = "ENABLED"
+    assign_public_ip = true
   }
 }
 
