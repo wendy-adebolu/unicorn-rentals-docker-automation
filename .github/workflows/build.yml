@@ -23,8 +23,8 @@ jobs:
     - name: Configure AWS credentials for account
       uses: aws-actions/configure-aws-credentials@v1-node16
       with:
-        role-to-assume: "arn:aws:iam::060399601368:role/github-deployment-for-imaginary-client"
-        aws-region: 'eu-west-2'
+        role-to-assume: "arn:aws:iam::017432918922:role/Github-Deployment-Role"
+        aws-region: 'eu-west-1'
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -32,41 +32,41 @@ jobs:
 
     - name: Build and push Docker image for web-server
       env:
-        AWS_REGION: 'eu-west-2'
+        AWS_REGION: 'eu-west-1'
         ECR_REPO_NAME: 'ecr-imaginary-client-wordpress'
         DOCKERFILE_PATH: Dockerfiles/web-server/Dockerfile
         IMAGE_TAG: 'web-server'  # Specify the tag you want to use
       run: |
         # Build the Docker image
-        docker build -t 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG -f $DOCKERFILE_PATH .
+        docker build -t 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG -f $DOCKERFILE_PATH .
         
         # Tag the Docker image
         docker tag 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
         
         # Push the Docker image to ECR
-        docker push 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
+        docker push 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
 
         # Output the image URL
-        echo "::set-output name=image_url::060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG"
+        echo "::set-output name=image_url::017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG"
 
 
     - name: Build and push Docker image for mysql
       env:
-        AWS_REGION: 'eu-west-2'
+        AWS_REGION: 'eu-west-1'
         ECR_REPO_NAME: 'ecr-imaginary-client-mysql'
         DOCKERFILE_PATH: Dockerfiles/mysql/Dockerfile
         IMAGE_TAG: 'mysql'  # Specify the tag you want to use
       run: |
         # Build the Docker image
-        docker build -t 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG -f $DOCKERFILE_PATH .
+        docker build -t 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG -f $DOCKERFILE_PATH .
           
         # Tag the Docker image
-        docker tag 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
+        docker tag 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
           
         # Push the Docker image to ECR
-        docker push 060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
+        docker push 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
   
         # Output the image URL
-        echo "name=$(image_url::060399601368.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG)" >> $GITHUB_OUTPUT
+        echo "name=$(image_url::017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG)" >> $GITHUB_OUTPUT
         
 
