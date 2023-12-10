@@ -53,7 +53,7 @@ jobs:
     - name: Build and push Docker image for mysql
       env:
         AWS_REGION: 'eu-west-1'
-        ECR_REPO_NAME: 'ecr-imaginary-client-wordpress'
+        ECR_REPO_NAME: 'ecr-mysql'
         DOCKERFILE_PATH: Dockerfiles/mysql/Dockerfile
         IMAGE_TAG: 'mysql'  # Specify the tag you want to use
       run: |
