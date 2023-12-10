@@ -1,5 +1,7 @@
 resource "aws_vpc" "my_vpc" {
   cidr_block = "10.0.0.0/16"
+  enable_dns_support   = true  # Enables the ability to resolve DNS hostnames within the VPC
+  enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "my_subnet" {
