@@ -1,3 +1,37 @@
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "10.0.0.0/16"
+}
+
+resource "aws_subnet" "my_subnet" {
+  vpc_id     = aws_vpc.my_vpc.id
+  cidr_block = "10.0.1.0/24"
+}
+
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.my_vpc.id
+}
+
+resource "aws_route_table" "rt" {
+  vpc_id = aws_vpc.my_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+}
+
+resource "aws_security_group" "ecs_sg" {
+  vpc_id = aws_vpc.my_vpc.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 module "imaginary-client-wordpress" {
   source       = "../modules/terraform-aws-ecr"
   stage        = var.environment
@@ -28,7 +62,7 @@ resource "aws_ecs_task_definition" "wordpress_task" {
 
   container_definitions = jsonencode([{
     name  = "wordpress"
-    image = "060399601368.dkr.ecr.eu-west-2.amazonaws.com/ecr-imaginary-client:web-server" # Replace with your WordPress image URL
+    image = "060399601368.dkr.ecr.eu-west-2.amazonaws.com/ecr-imaginary-client-wordpress:web-server" # Replace with your WordPress image URL
     portMappings = [{
       containerPort = 80
       hostPort      = 80
@@ -47,7 +81,7 @@ resource "aws_ecs_task_definition" "mysql_task" {
 
   container_definitions = jsonencode([{
     name  = "mysql"
-    image = "060399601368.dkr.ecr.eu-west-2.amazonaws.com/ecr-imaginary-client:mysql" # Replace with your MySQL image URL
+    image = "060399601368.dkr.ecr.eu-west-2.amazonaws.com/ecr-imaginary-client-mysql:mysql" # Replace with your MySQL image URL
     portMappings = [{
       containerPort = 3306
       hostPort      = 3306
@@ -71,32 +105,15 @@ resource "aws_iam_role" "ecs_execution_role" {
   })
 }
 
-# Define an IAM policy for additional permissions
-resource "aws_iam_policy" "ecr_policy" {
-  name = "ecr-policy"
-
-  # Define the policy document to allow ECR actions
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [{
-      Effect = "Allow",
-      Action = [
-        "ecr:GetRepositoryPolicy",
-        "ecr:GetLifecyclePolicy",
-        "ecr:BatchGetImage",
-        "ecr:GetDownloadUrlForLayer",
-        "ecr:GetAuthorizationToken",
-        "ecr:BatchCheckLayerAvailability"
-      ],
-      Resource = "*"
-    }]
-  })
-}
-
 # Attach the IAM policy to the ECS execution role
 resource "aws_iam_role_policy_attachment" "ecr_attachment" {
-  policy_arn = aws_iam_policy.ecr_policy.arn
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
   role       = aws_iam_role.ecs_execution_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "ecr_read_only_policy" {
+  role       = aws_iam_role.ecs_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
 # Define an ECS service for WordPress
@@ -108,13 +125,11 @@ resource "aws_ecs_service" "wordpress_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets = ["subnet-0361a4cacced162cd"] # Replace with your subnet IDs
-    security_groups = ["sg-0878a5a64855bb525"]
+    subnets = [aws_subnet.my_subnet.id] # Replace with your subnet IDs
+    security_groups = [aws_security_group.ecs_sg.id]
   }
 }
 
 
-
-# Define a VPC and other networking resources if needed.
 
 
