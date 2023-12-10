@@ -67,6 +67,6 @@ jobs:
         docker push 017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG
   
         # Output the image URL
-        echo "name=$(image_url::017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG)"
+        echo "::set-output name=image_url::017432918922.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME:$IMAGE_TAG"
         
 
