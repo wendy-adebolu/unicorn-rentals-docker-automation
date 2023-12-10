@@ -23,13 +23,23 @@ resource "aws_route_table" "rt" {
 resource "aws_security_group" "ecs_sg" {
   vpc_id = aws_vpc.my_vpc.id
 
+  # Ingress rule to allow HTTP traffic
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  # Egress rule to allow all outbound traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1" # -1 means all protocols
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
+
 
 
 module "imaginary-client-wordpress" {
@@ -62,7 +72,7 @@ resource "aws_ecs_task_definition" "wordpress_task" {
 
   container_definitions = jsonencode([{
     name  = "wordpress"
-    image = "017432918922.dkr.ecr.eu-west-1.amazonaws.com/ecr-imaginary-client-wordpress" # Replace with your WordPress image URL
+    image = "060399601368.dkr.ecr.eu-west-2.amazonaws.com/ecr-imaginary-client-wordpress:web-server" # Replace with your WordPress image URL
     portMappings = [{
       containerPort = 80
       hostPort      = 80
@@ -81,7 +91,7 @@ resource "aws_ecs_task_definition" "mysql_task" {
 
   container_definitions = jsonencode([{
     name  = "mysql"
-    image = "017432918922.dkr.ecr.eu-west-1.amazonaws.com/ecr-imaginary-client-mysql" # Replace with your MySQL image URL
+    image = "060399601368.dkr.ecr.eu-west-2.amazonaws.com/ecr-imaginary-client-mysql:mysql" # Replace with your MySQL image URL
     portMappings = [{
       containerPort = 3306
       hostPort      = 3306
@@ -129,6 +139,21 @@ resource "aws_ecs_service" "wordpress_service" {
     security_groups = [aws_security_group.ecs_sg.id]
   }
 }
+
+# Define an ECS service for MySQL
+resource "aws_ecs_service" "mysql_service" {
+  name            = "mysql-service"
+  cluster         = aws_ecs_cluster.wordpress_cluster.id
+  task_definition = aws_ecs_task_definition.mysql_task.arn
+  launch_type     = "FARGATE"
+  desired_count   = 1
+
+  network_configuration {
+    subnets = [aws_subnet.my_subnet.id] # Replace with your subnet IDs
+    security_groups = [aws_security_group.ecs_sg.id]
+  }
+}
+
 
 
 
