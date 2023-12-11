@@ -88,12 +88,22 @@ resource "aws_ecs_task_definition" "wordpress_task" {
       }]
     "environment" : [
       {
-        "WORDPRESS_DB_HOST" : "localhost"
-        "WORDPRESS_DB_USER" : "wordpress"
-        "WORDPRESS_DB_PASSWORD" : "wordpress"
-        "WORDPRESS_DB_NAME" : "wordpress"
+        "name":"WORDPRESS_DB_HOST"
+        "value":"localhost"
+      },
+      {
+        "name":"WORDPRESS_DB_USER"
+        "value":"wordpress"
+      },
+      {
+        "name":"WORDPRESS_DB_PASSWORD"
+        "value":"wordpress"
+      },
+      {
+        "name":"WORDPRESS_DB_NAME"
+        "value":"wordpress"
       }
-    ],
+    ]
   }])
 }
 
@@ -114,13 +124,24 @@ resource "aws_ecs_task_definition" "mysql_task" {
       hostPort      = 3306
     }]
     "environment" : [
+
       {
-        "MYSQL_ROOT_PASSWORD" : "root_password"
-        "MYSQL_DATABASE" : "wordpress"
-        "MYSQL_USER" : "wordpress"
-        "MYSQL_PASSWORD" : "wordpress"
+        "name":"MYSQL_ROOT_PASSWORD"
+        "value":"root_password"
+      },
+      {
+        "name":"MYSQL_DATABASE"
+        "value":"wordpress"
+      },
+      {
+        "name":"MYSQL_USER"
+        "value":"wordpress"
+      },
+      {
+        "name":"MYSQL_PASSWORD"
+        "value":"wordpress"
       }
-    ],
+    ]
   }])
 }
 
