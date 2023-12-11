@@ -1,12 +1,6 @@
 # Use an official MySQL image as the base image
 FROM mysql:latest
 
-# Set environment variables for MySQL
-# Note: Update these values with your actual database configuration
-ENV MYSQL_ROOT_PASSWORD=root_password \
-    MYSQL_DATABASE=wordpress \
-    MYSQL_USER=wordpress \
-    MYSQL_PASSWORD=wordpress
 
 # Expose port 3306
 EXPOSE 3306
