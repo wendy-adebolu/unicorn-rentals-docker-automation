@@ -1,12 +1,12 @@
 resource "aws_vpc" "my_vpc" {
-  cidr_block = "10.0.0.0/16"
-  enable_dns_support   = true  # Enables the ability to resolve DNS hostnames within the VPC
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true # Enables the ability to resolve DNS hostnames within the VPC
   enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "my_subnet" {
-  vpc_id     = aws_vpc.my_vpc.id
-  cidr_block = "10.0.1.0/24"
+  vpc_id                  = aws_vpc.my_vpc.id
+  cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
 }
 
@@ -27,6 +27,7 @@ resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.my_subnet.id
   route_table_id = aws_route_table.rt.id
 }
+
 
 resource "aws_security_group" "ecs_sg" {
   vpc_id = aws_vpc.my_vpc.id
@@ -83,8 +84,16 @@ resource "aws_ecs_task_definition" "wordpress_task" {
     image = "017432918922.dkr.ecr.eu-west-1.amazonaws.com/ecr-imaginary-client-wordpress:web-server" # Replace with your WordPress image URL
     portMappings = [{
       containerPort = 80
-      hostPort      = 80
-    }]
+      hostPort      = 80  
+      }]
+    "environment" : [
+      {
+        "WORDPRESS_DB_HOST" : "localhost"
+        "WORDPRESS_DB_USER" : "wordpress"
+        "WORDPRESS_DB_PASSWORD" : "wordpress"
+        "WORDPRESS_DB_NAME" : "wordpress"
+      }
+    ],
   }])
 }
 
@@ -104,6 +113,14 @@ resource "aws_ecs_task_definition" "mysql_task" {
       containerPort = 3306
       hostPort      = 3306
     }]
+    "environment" : [
+      {
+        "MYSQL_ROOT_PASSWORD" : "root_password"
+        "MYSQL_DATABASE" : "wordpress"
+        "MYSQL_USER" : "wordpress"
+        "MYSQL_PASSWORD" : "wordpress"
+      }
+    ],
   }])
 }
 
@@ -143,9 +160,10 @@ resource "aws_ecs_service" "wordpress_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets = [aws_subnet.my_subnet.id] # Replace with your subnet IDs
-    security_groups = [aws_security_group.ecs_sg.id]
+    subnets          = [aws_subnet.my_subnet.id] # Replace with your subnet IDs
+    security_groups  = [aws_security_group.ecs_sg.id]
     assign_public_ip = true
+
   }
 }
 
@@ -158,12 +176,11 @@ resource "aws_ecs_service" "mysql_service" {
   desired_count   = 1
 
   network_configuration {
-    subnets = [aws_subnet.my_subnet.id] # Replace with your subnet IDs
-    security_groups = [aws_security_group.ecs_sg.id]
+    subnets          = [aws_subnet.my_subnet.id] # Replace with your subnet IDs
+    security_groups  = [aws_security_group.ecs_sg.id]
     assign_public_ip = true
   }
 }
-
 
 
 
